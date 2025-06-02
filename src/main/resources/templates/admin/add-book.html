@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Add New Book</title>
+</head>
+<body>
+<h2>Add New Book</h2>
+
+<form th:action="@{/admin/books/add}" th:object="${book}" method="post">
+  <label>Title:</label>
+  <input type="text" th:field="*{title}" required /><br/><br/>
+
+  <label>Author:</label>
+  <select th:field="*{authorId}" required>
+    <option value="" disabled selected>-- Select Author --</option>
+    <option th:each="author : ${authors}"
+            th:value="${author.id}"
+            th:text="${author.name}">
+    </option>
+  </select>
+
+  <!-- Кнопка для добавления нового автора -->
+  <a th:href="@{/admin/authors/add}" style="margin-left: 10px;">➕ Add New Author</a>
+  <br/><br/>
+
+  <label>Year:</label>
+  <input type="number" th:field="*{year}" required /><br/><br/>
+
+  <label>Description:</label><br/>
+  <textarea th:field="*{description}" rows="4" cols="40"></textarea><br/><br/>
+
+  <label>Genres:</label><br/>
+  <select th:field="*{genreIds}" multiple size="5">
+    <option th:each="g : ${genres}"
+            th:value="${g.id}"
+            th:text="${g.name}">
+    </option>
+  </select>
+  <a th:href="@{/admin/genres/add}" style="margin-left:10px;">➕ Add New Genre</a>
+  <br/><br/>
+
+  <label>Quantity:</label>
+  <input type="number" th:field="*{quantity}" min="0" required />
+  <br/><br/>
+
+  <button type="submit">Add Book</button>
+</form>
+
+<br/>
+<a th:href="@{/books}">← Back to Book List</a>
+</body>
+</html>

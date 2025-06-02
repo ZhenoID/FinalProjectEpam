@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{title.home}">Home</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h2 th:text="#{title.home}">Welcome!</h2>
+
+<a th:href="@{/home(lang='en')}">EN</a> |
+<a th:href="@{/home(lang='ru')}">RU</a>
+
+<br><br>
+
+<a th:href="@{/profile}">
+    <button th:text="#{button.profile}">Profile</button>
+</a>
+
+<br><br>
+
+<a th:href="@{/books}">
+    <button th:text="#{button.library}">Go to the library</button>
+</a>
+
+<br><br>
+
+
+</body>
+</html>

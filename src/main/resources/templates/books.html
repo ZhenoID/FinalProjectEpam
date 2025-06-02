@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title th:text="#{title.books}">Book List</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h2 th:text="#{heading.bookList}">Book List</h2>
+
+<!-- Language switcher -->
+<div style="margin-bottom: 10px;">
+    <a th:href="@{/books(lang='en')}">EN</a> |
+    <a th:href="@{/books(lang='ru')}">RU</a>
+</div>
+
+<!-- Add New Book button for admins -->
+<div sec:authorize="hasAnyAuthority('ADMIN','LIBRARIAN')" style="margin-bottom: 15px;">
+    <a th:href="@{/admin/books/add}"
+       style="padding: 8px 12px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;"
+       th:text="#{button.addBook}">➕ Add New Book</a>
+</div>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th th:text="#{label.title}">Title</th>
+        <th th:text="#{label.author}">Author</th>
+        <th th:text="#{label.genre}">Genre</th>
+        <th th:text="#{label.year}">Year</th>
+        <th th:text="#{label.quantity}">Quantity</th>
+        <th th:text="#{label.description}">Description</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.title}">Book Title</td>
+        <td th:text="${book.author.name}">Author Name</td>
+        <td>
+            <span th:each="g, iterStat : ${book.genres}">
+                <span th:text="${g.name}">Genre Name</span>
+                <span th:if="${!iterStat.last}">, </span>
+            </span>
+        </td>
+        <td th:text="${book.year}">Year</td>
+        <td th:text="${book.quantity}">0</td>
+        <td th:text="${book.description}">Description</td>
+        <td>
+            <form th:action="@{/basket/change/{id}/{delta}(id=${book.id},delta=1)}"
+                  method="post" style="display:inline">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit"
+                        style="padding:4px 8px; background:#4CAF50; color:white; border:none; border-radius:4px; cursor:pointer;"
+                        th:text="#{button.addToBasket}">Add to Basket</button>
+            </form>
+            <form th:action="@{/admin/books/edit/{id}(id=${book.id})}" method="get" style="display:inline; margin-left:8px;">
+                <button sec:authorize="hasAnyAuthority('ADMIN','LIBRARIAN')" type="submit"
+                        th:text="#{button.edit}">
+                    Edit
+                </button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+<br/>
+<a th:href="@{/home}" th:text="#{link.backToHome}">← Back to Home</a>
+
+</body>
+</html>

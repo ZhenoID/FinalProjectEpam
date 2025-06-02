@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="#{title.purchaseHistory}">Purchase History</title>
+</head>
+<body>
+<h2 th:text="#{heading.purchaseHistory}">Purchase History</h2>
+
+<div th:if="${error}" style="color:red;">
+  <p th:text="${error}">Error occurred</p>
+</div>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+  <tr>
+    <th th:text="#{label.date}">Date</th>
+    <th th:text="#{label.title}">Title</th>
+    <th th:text="#{label.author}">Author</th>
+    <th th:text="#{label.quantity}">Quantity</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="row : ${historyRows}">
+    <!-- row[2] у вас — java.sql.Timestamp, поэтому используем #dates.format -->
+    <td th:text="${#dates.format(row[2], 'dd-MM-yyyy HH:mm')}">01-06-2025 12:00</td>
+    <td th:text="${(row[0]).title}">Book Title</td>
+    <td th:text="${(row[0]).author.name}">Author Name</td>
+    <td th:text="${row[1]}">1</td>
+  </tr>
+  </tbody>
+</table>
+
+<br/>
+<a th:href="@{/profile}" th:text="#{link.backToProfile}">← Back to Profile</a>
+
+<br/><br/>
+<a th:href="@{/purchase-history(lang='en')}">EN</a> |
+<a th:href="@{/purchase-history(lang='ru')}">RU</a>
+
+</body>
+</html>

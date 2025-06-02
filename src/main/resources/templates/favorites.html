@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text = "${label.favorite}">My Favorites</title>
+</head>
+<body>
+<h2>My Favorites</h2>
+<table>
+  <tr>
+    <th th:text="${label.bookId}">Book ID</th><th th:text="${label.action}">Action</th>
+  </tr>
+  <tr th:each="fb : ${favorites}">
+    <td th:text="${fb.bookId}">ID</td>
+    <td>
+      <form th:action="@{/favorites/confirm/{id}(id=${fb.bookId})}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <button type="submit" th:text = "${label.confirmPurchase}">Confirm Purchase</button>
+      </form>
+    </td>
+  </tr>
+</table>
+<a th:href="@{/books}" th:text="${link.backToHome}">← Back to Book List</a>
+</body>
+</html>

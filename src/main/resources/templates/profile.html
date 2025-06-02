@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title th:text="#{title.profile}">User Profile</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h2 th:text="#{title.profile}">User Profile</h2>
+
+<form action="#" th:action="@{/profile}" th:object="${user}" method="post">
+    <p>
+        <strong th:text="#{label.username}">Username:</strong>
+        <span th:text="*{username}"></span>
+    </p>
+
+    <input type="hidden" th:field="*{username}" />
+</form>
+<p sec:authorize="isAuthenticated()">
+    Your roles: <span sec:authentication="authorities"></span>
+</p>
+
+<a th:href="@{/profile/settings}" th:text="#{link.changePassword}">Change Password</a>
+<br><br>
+
+<div style="margin-top:20px;">
+    <a th:href="@{/basket}"
+       style="padding:8px 12px; background-color:#2196F3; color:white; text-decoration:none; border-radius:4px;"
+       th:text="#{link.myFavorites}">
+        My Favorites
+    </a>
+</div>
+<br>
+
+<div sec:authorize="hasAuthority('ADMIN')" style="margin-top: 20px;">
+    <a th:href="@{/admin/users}"
+       style="padding: 8px 12px; background-color:#673AB7; color:white; text-decoration:none; border-radius:4px;"
+       th:text="#{button.manageUsers}">Manage Users</a>
+</div>
+<br><br>
+
+<a th:href="@{/purchase-history}" th:text="#{link.purchaseHistory}">Purchase History</a>
+<br><br>
+<a th:href="@{/home}" th:text="#{link.backToHome}">← Back to Home</a>
+
+
+
+<!-- Переключение языков -->
+<br><br>
+<a th:href="@{/profile(lang='en')}">EN</a> |
+<a th:href="@{/profile(lang='ru')}">RU</a> |
+<a th:href="@{/logout}" th:text="#{button.logout}">Logout</a>
+</body>
+</html>

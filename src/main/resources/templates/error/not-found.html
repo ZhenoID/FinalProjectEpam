@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="#{error.title}">Error</title>
+</head>
+<body>
+<h1 th:text="#{error.title}">Resource Not Found</h1>
+<p th:text="#{error.message}">The requested resource was not found.</p>
+
+<a th:href="@{/books(lang='en')}">EN</a> |
+<a th:href="@{/books(lang='ru')}">RU</a>
+
+<br><br>
+<a th:href="@{/}" th:text="#{backToHome}">Back to Home</a>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Genre</title>
+</head>
+<body>
+
+<h2>Add New Genre</h2>
+
+<form th:action="@{/admin/genres/add}" th:object="${genre}" method="post">
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" placeholder="Genre name" required />
+    <button type="submit">Save Genre</button>
+</form>
+
+<div th:if="${error}">
+    <p th:text="${error}" style="color:red;"></p>
+</div>
+
+<br/>
+<a th:href="@{/admin/books/add}">← Back to Add Book</a>
+
+</body>
+</html>

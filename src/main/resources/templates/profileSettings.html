@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="#{title.changePassword}">Change Password</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+
+<h2 th:text="#{title.changePassword}">Change Password</h2>
+
+<form th:action="@{/profile/settings}" method="post">
+  <!-- Добавляем CSRF-токен -->
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+  <label th:text="#{label.oldPassword}">Old Password:</label>
+  <input type="password" name="oldPassword" required/><br/>
+
+  <label th:text="#{label.newPassword}">New Password:</label>
+  <input type="password" name="newPassword" required/><br/>
+
+  <label th:text="#{label.repeatNewPassword}">Repeat New Password:</label>
+  <input type="password" name="repeatNewPassword" required/><br/>
+
+  <button type="submit" th:text="#{button.updatePassword}">Update Password</button>
+</form>
+
+<p th:if="${error}" th:text="${error}" style="color:red;"></p>
+<p th:if="${message}" th:text="${message}" style="color:green;"></p>
+
+<a th:href="@{/profile}" th:text="#{link.backToProfile}">← Back to Profile</a>
+
+<!-- Язык -->
+<br><br>
+<a th:href="@{/profile/settings(lang='en')}">EN</a> |
+<a th:href="@{/profile/settings(lang='ru')}">RU</a>
+
+</body>
+</html>

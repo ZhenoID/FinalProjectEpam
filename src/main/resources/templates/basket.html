@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{title.basket}">My Basket</title>
+</head>
+<body>
+<h2 th:text="#{heading.basket}">My Basket</h2>
+
+<div th:if="${error}" style="color:red;">
+    <p th:text="${error}">Error message</p>
+</div>
+
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+    <tr>
+        <th th:text="#{label.id}">ID</th>
+        <th th:text="#{label.title}">Title</th>
+        <th th:text="#{label.author}">Author</th>
+        <th th:text="#{label.quantity}">Quantity</th>
+        <th th:text="#{label.actions}">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${booksInBasket}">
+        <td th:text="${book.id}">1</td>
+        <td th:text="${book.title}">Book Title</td>
+        <td th:text="${book.author.name}">Author Name</td>
+        <td>
+            <!-- Кнопка −1 -->
+            <form th:action="@{/basket/change/{id}/{delta}(id=${book.id},delta=-1)}"
+                  method="post" style="display:inline">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit">−</button>
+            </form>
+
+            <!-- Поле ввода и кнопка Set -->
+            <form th:action="@{/basket/set/{id}(id=${book.id})}"
+                  method="post" style="display:inline">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <input type="number" name="quantity" th:value="${book.quantity}"
+                       min="0" style="width:40px;text-align:center;"/>
+            </form>
+
+            <!-- Кнопка +1 -->
+            <form th:action="@{/basket/change/{id}/{delta}(id=${book.id},delta=1)}"
+                  method="post" style="display:inline">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit" onclick="this.disabled=true; this.form.submit();">+</button>
+            </form>
+        </td>
+        <td>
+            <!-- Кнопка «Удалить всю строку» -->
+            <form th:action="@{/basket/remove/{id}(id=${book.id})}"
+                  method="post" style="display:inline">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit" th:text="#{button.remove}">Remove</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<form th:action="@{/basket/confirm}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <button type="submit"
+            style="padding:8px 12px; background:#4CAF50; color:white; border:none; border-radius:4px; cursor:pointer;"
+            th:text="#{button.confirmAll}">Confirm All</button>
+</form>
+
+<div style="margin-bottom: 10px;">
+    <a th:href="@{/books(lang='en')}">EN</a> |
+    <a th:href="@{/books(lang='ru')}">RU</a>
+</div>
+
+<a th:href="@{/purchase-history}" th:text="#{link.purchaseHistory}">← Back to profile</a>
+
+<br/>
+<a th:href="@{/profile}" th:text="#{link.backToProfile}">← Back to profile</a>
+</body>
+</html>
